@@ -6,9 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="popup.css">
-    <script src="popup.js"></script>
 </head>
 <body>
-    <h1>Welcome to my test extension</h1>
+
+
+    <div id="menu">
+        <h1>Wynncraft Player Data</h1>
+        <input type="text" id="userInput", placeholder="Enter username">
+        <button id="getUserButton">Search</button>
+    </div>
+
+    <div id="content">
+        <img id="bodyRender" alt="Player Render">
+        <h1 id="title" class="g2"></h1>
+        <p id="playtime" class="g2"></p>
+        <p id="online" class="g2"></p>
+        <p id="server" class="g2"></p>
+        <br>
+        <p id="blocksWalked" class="g2"></p>
+        <p id="mobsKilled" class="g2"></p>
+        <p id="totalLevelCombined" class="g2"></p>
+        <p id="pvpKills" class="g2"></p>
+        <p id="pvpDeaths" class="g2"></p>
+        <p id="deaths" class="g2"></p>
+        <p id="discoveries" class="g2"></p>
+        <p id="swarmsWon" class="g2"></p>
+    </div>
+
+
+    <script src="popup.js" type="module"></script>
 </body>
 </html>
