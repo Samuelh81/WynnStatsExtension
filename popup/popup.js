@@ -1,4 +1,4 @@
-let userName = "";
+let userName = null;
 let input = document.getElementById("userInput");
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -28,14 +28,15 @@ async function updateData() {
     let guild = playerData.guild;
     let meta = playerData.meta;
     let ranking = playerData.ranking;
-    let uuid = playerData.uuid;  
-
+    let uuid = playerData.uuid; 
+    userName = playerData.username;
     let title = playerData.rank;
 
+    
+
     // Update HTML
-    document.getElementById("title").innerHTML = playerData.username + "'s player data"; 
-
-
+    {
+    // document.getElementById("title").innerHTML = playerData.username + "'s player data"; 
     document.getElementById("blocksWalked").innerHTML = 'Blocks Walked: ' + global.blocksWalked; 
     document.getElementById("mobsKilled").innerHTML = 'Mobs Killed: ' + global.mobsKilled; 
     document.getElementById("totalLevelCombined").innerHTML = 'Total Level: ' + global.totalLevel.combined; 
@@ -44,6 +45,7 @@ async function updateData() {
     document.getElementById("deaths").innerHTML = 'PVP Deaths: ' + global.deaths; 
     document.getElementById("discoveries").innerHTML = 'Discoveries: ' + global.discoveries; 
     document.getElementById("swarmsWon").innerHTML = 'Swarms Won: ' + global.eventsWon; 
+    }
 
     document.getElementById("playtime").innerHTML = 'Playtime: ' + (Math.ceil(100*(meta.playtime*4.7)/60))/100 + ' hours';
     let firstJoin = meta.firstJoin;
@@ -52,34 +54,82 @@ async function updateData() {
     let veteran = meta.playtime;
     let guildStats = {"name": guild.name, "rank": guild.rank};
 
-    document.getElementById("online").innerHTML = 'Online: ' + meta.location.online;
-    if (meta.location.online) {
-        document.getElementById("server").innerHTML = 'Location: ' + meta.location.server;
-        document.getElementById("server").style.visibility = true;
-    } else {
-        document.getElementById("server").innerHTML = 'Location: N/A';
-        document.getElementById("server").style.visibility = false;
-    }
-    switch (rank) {
-        case "VIP":
-            document.getElementById('title').style.color = "green";
+    // Rank Check
+    let rankColor = null;
+    switch (title) {
+        case "Player":
+            switch (rank) {
+                case "VIP":
+                    rankColor = "green";
+                    break;
+                case "VIP+":
+                    rankColor = "darkCyan";
+                    break;
+                case "HERO":
+                    rankColor = "purple";
+                    break;
+                case "CHAMPION":
+                    rankColor = "gold";
+                    break;
+                default:
+                    rankColor = "gray"
+                    break;
+            }
+        break;
+        case "Administrator":
+            rankColor = "red";
             break;
-        case "VIP+":
-            document.getElementById('title').style.color = "aqua";
+        case "Moderator":
+            rankColor = "yellow";
             break;
-        case "HERO":
-            document.getElementById('title').style.color = "purple";
+        case "Builder":
+            rankColor = "aqua";
             break;
-        case "CHAMPION":
-            document.getElementById('title').style.color = "gold";
+        case "Item":
+            rankColor = "aqua";
+            break;  
+        case "Game Master":
+            rankColor = "aqua";
+            break;      
+        case "CMD":
+            rankColor = "aqua";
             break;
-        default:
-            document.getElementById('title').style.color = "gray"
+        case "Hybrid":
+            rankColor = "aqua";
             break;
+        case "Media":
+            rankColor = "purple";
+            break;
+        
     }
 
+    let currentServer = null;
+
+    if (meta.location.online) {
+        currentServer = meta.location.server;
+    }
+
+    let nametag;
+    if (currentServer === null) {
+        setHtmlTo('nametagServer', 'text', '[offline]');
+        setHtmlTo('nametagServer', 'color', 'gray');
+
+        setHtmlTo('nametagUsername', 'text', userName);
+        setHtmlTo('nametagUsername', 'color', rankColor);
+    } else {
+        setHtmlTo('nametagServer', 'text', '[' + currentServer + ']');
+        setHtmlTo('nametagServer', 'color', 'gray');
+
+        setHtmlTo('nametagUsername', 'text', userName);
+        setHtmlTo('nametagUsername', 'color', rankColor);
+        
+    }
+
+
     document.getElementById('bodyRender').src= "https://visage.surgeplay.com/full/350/" + uuid;
+    document.getElementById('content').style.visibility = "visible";
     document.getElementById('bodyRender').style.visibility = "visible";
+
 
 }
 
@@ -118,5 +168,21 @@ input.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
     document.getElementById("getUserButton").click();
+    document.getElementById('content').style.visibility = "hidden" 
   }
 });
+
+function setHtmlTo(elementId, attribute, value) {
+    switch (attribute) {
+        case "text":
+            document.getElementById(elementId).innerHTML = value;
+            break;
+        case "color":
+            document.getElementById(elementId).style.color = value;
+            break;
+        default:
+            document.getElementById(elementId).innerHTML = value;
+            break;
+    }
+
+}

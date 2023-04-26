@@ -3,9 +3,14 @@
     src: url(./Ubuntu-Regular.ttf) format('tff')';
 }
 
+@font-face {
+    font-family: 'minecraftia';
+    src: url(./minecraftia.woff);
+}
+
 body {
     /* background-color: #baaa80; */
-    background-image: url(./paper1.png);
+    background-image: url(./images/background.png);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
@@ -26,7 +31,7 @@ p {
 
 #title {
     font-weight: normal;
-    color: gold;
+
 }
 
 div#menu {
@@ -42,6 +47,7 @@ div#content {
     justify-items: space-evenly; */
     display: grid;
     grid-template-columns: 50% 50%;
+    visibility: hidden;
 }
 
 .g2 {
@@ -54,4 +60,33 @@ div#content {
     grid-row-start: 2;
     grid-row-end: 13;
     visibility: hidden;
+    justify-self: center;
+}
+
+#nametagDiv {
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+}
+
+#nametag {
+    font-family: 'minecraftia';
+    font-size: 25px;
+    justify-self: center;
+    align-self: center;
+    transform:  skew(2deg, 3deg);
+    /* animation-name: skew;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear; */
+}
+
+@keyframes skew {
+    from {
+        transform: skew(0deg, 0deg);
+    }
+    to {
+        transform: skew(2deg, 5deg);
+    }
+
 }
